@@ -13,7 +13,7 @@ const roleSchema = new mongoose.Schema({
 roleSchema.virtual('users', {
     ref: 'User',
     localField: "_id",
-    foreignField: "roleId"
+    foreignField: "role"
 })
 
 const Role = mongoose.model('Role', roleSchema)

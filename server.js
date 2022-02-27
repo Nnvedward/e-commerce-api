@@ -1,6 +1,8 @@
 const express = require('express')
 require('express-async-errors')
 const UserRoutes = require('./src/routes/user.route')
+const AuthRoutes = require('./src/routes/auth.route')
+const RoleRoutes = require('./src/routes/role.route')
 const { PORT } = process.env
 const bodyParser = require("body-parser")
 
@@ -11,7 +13,9 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Api routes
-app.use(UserRoutes)
+app.use('/users', UserRoutes)
+app.use('/auth', AuthRoutes)
+app.use(RoleRoutes)
 
 // Ping route for testing connection
 app.get("/ping", (req, res) => res.status(200).send("Hello world!"));
