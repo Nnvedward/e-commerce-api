@@ -28,7 +28,19 @@ const auth = (req, res, next) => {
     })
 }
 
+const authAndAdmin = (req, res, next) => {
+    verifyToken(req, res, async() => {
+        const role = await Role.populate(req.user, {path: 'role'})
+        if (req.user.role === (role.role.name && "Admin")) {
+            next()
+        }
+        else {
+            throw new CustomError('Unauthorized access!', 401)
+        }
+    })
+}
+
 module.exports = {
-    verifyToken,
-    auth
+    auth,
+    authAndAdmin
 }
