@@ -1,6 +1,7 @@
 const JWT = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.model')
+const Role = require('../models/role.model')
 const CustomError = require('../utils/custom-error')
 
 class AuthService {
@@ -11,6 +12,7 @@ class AuthService {
 
         user = new User(data)
 
+        // Generate token
         const token = await user.generateAuthToken()
 
         await user.save()
@@ -35,15 +37,24 @@ class AuthService {
         const isCorrect = await bcrypt.compare(data.password, user.password)
         if (!isCorrect) throw new CustomError('Incorrect username or password')
 
+        // Generate Token
         const token = await user.generateAuthToken()
+
+        // Fetch the role
+        const role = await Role.populate(user, {path: 'role'})
 
         return data = {
             uid: user._id,
             username: user.username,
-            role: user.role,
+            role: role.role.name,
             token: token
         }
     }
+
+    // User Logout
+    // async logout(data) {
+
+    // }
 }
 
 module.exports = new AuthService
