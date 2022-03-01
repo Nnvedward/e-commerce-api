@@ -20,6 +20,9 @@ app.use(RoleRoutes)
 // Ping route for testing connection
 app.get("/ping", (req, res) => res.status(200).send("Hello world!"));
 
+// Error middleware
+require('./src/middlewares/error.middleware')(app)
+
 // Listen to server port
 app.listen(PORT, async () => {
     //Initialize MongoDB
