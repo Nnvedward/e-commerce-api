@@ -14,7 +14,7 @@ class UserController {
 
     async getAllUsers(req, res) {
         const result = await UserServ.getAllUsers()
-        res.status(200).send(response('All users'), result)
+        res.status(200).send(response('All users', result))
     }
 }
 

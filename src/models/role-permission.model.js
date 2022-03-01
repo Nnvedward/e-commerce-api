@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 
 const rolePermissionSchema = new mongoose.Schema({
-    roleId: {
+    role: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Role'
     },
-    permissionId: {
+    permission: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Permission'
+    },
+    isAssigned: {
+        type: Boolean,
+        default: false
     }
 })
 

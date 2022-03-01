@@ -6,6 +6,10 @@ const roleSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         required: true
+    },
+    isAdmin :{
+        type: Boolean,
+        default: false
     }
 })
 
