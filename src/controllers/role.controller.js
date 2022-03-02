@@ -21,6 +21,16 @@ class RoleController {
         const result = await RoleServ.managePermission(req.params.roleId)
         res.status(200).send(response('Role permission', result))
     }
+
+    async manageRolePermission(req, res) {
+        const result = await RoleServ.manageRolePermission(req.params.roleId, req.body)
+        res.status(200).send(response('Role permissions', result))
+    }
+
+    async getAssignedRolePermissions(req, res) {
+        const result = await RoleServ.getAssignedRolePermissions(req.params.roleId)
+        res.status(200).send(response('Assigned Role-permissions', result))
+    }
 }
 
 module.exports = new RoleController()

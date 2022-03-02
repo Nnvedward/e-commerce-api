@@ -2,6 +2,7 @@ const Role = require('../models/role.model')
 const Permission = require('../models/permission.model')
 const RolePermission = require('../models/role-permission.model')
 const CustomError = require('../utils/custom-error')
+const { find } = require('../models/role.model')
 
 class RoleService {
     // Create Roles
@@ -62,6 +63,36 @@ class RoleService {
         // Get all permisions
         const result = await RolePermission.find({role: roleId}).populate("role permission","-isAdmin")
         return result
+    }
+
+    // Manage role-permissions
+    async manageRolePermission(roleId, requestRolePermissions) {
+        for(let reqRolePer of requestRolePermissions){
+
+            const rolePermission = await RolePermission.findOne({ _id: reqRolePer._id })
+            if(!rolePermission) throw new CustomError('Role permission not found!', 404)
+
+            const data = {
+                isAssigned: reqRolePer.isAssigned
+            }
+
+            await rolePermission.updateOne(
+                { $set: data },
+                { new: true }
+            );
+        }
+
+        const response = await RolePermission.find({ role: roleId }).populate('role permission',"-isAdmin")
+        return response
+    }
+
+    // Get all assigned role-permissions 
+    async getAssignedRolePermissions(roleId) {
+        const rolePermissions = await RolePermission.find({ role: roleId, isAssigned: true }).populate('role permission',"-isAdmin")
+        
+        if(!rolePermissions) throw new CustomError('No assigned Role-Permissions!', 404)
+
+        return rolePermissions
     }
 }
 
