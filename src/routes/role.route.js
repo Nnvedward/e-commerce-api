@@ -1,14 +1,9 @@
 const router = require('express').Router()
-const Role = require('../models/role.model')
+const RoleCtrl = require('../controllers/role.controller')
 
-router.post('/role', async (req, res) => {
-    const newRole = await new Role(req.body)
-    try{
-        await newRole.save()
-        res.status(200).send(newRole)
-    }catch(e) {
-        res.status(500).send(e)
-    }
-})
+router.post('/role', RoleCtrl.createRole)
+router.get('/:roleId', RoleCtrl.getRole)
+router.post('/permission', RoleCtrl.createPermission)
+router.get('/manage-permission/:roleId', RoleCtrl.managePermission)
 
 module.exports = router
