@@ -2,7 +2,6 @@ const Role = require('../models/role.model')
 const Permission = require('../models/permission.model')
 const RolePermission = require('../models/role-permission.model')
 const CustomError = require('../utils/custom-error')
-const { find } = require('../models/role.model')
 
 class RoleService {
     // Create Roles
@@ -40,19 +39,19 @@ class RoleService {
         const rolepermission = await RolePermission.findOne({ role: roleId })
         const permissions = await Permission.find()
 
-        if(!rolepermission) {
-            permissions.forEach(async(permission) => {
+        if (!rolepermission) {
+            permissions.forEach(async (permission) => {
                 await RolePermission({
                     role: roleId,
                     permission: permission._id
                 }).save();
             })
         }
-        else{
-            permissions.forEach(async(permission) => {
-                const permissionExistence = await RolePermission.findOne({role: roleId, permission: permission });
+        else {
+            permissions.forEach(async (permission) => {
+                const permissionExistence = await RolePermission.findOne({ role: roleId, permission: permission });
 
-                if(!permissionExistence){
+                if (!permissionExistence) {
                     await RolePermission({
                         role: roleId,
                         permission: permission._id
@@ -61,16 +60,17 @@ class RoleService {
             })
         }
         // Get all permisions
-        const result = await RolePermission.find({role: roleId}).populate("role permission","-isAdmin")
+        const result = await RolePermission.find({ role: roleId }).populate("role permission", "-isAdmin")
         return result
     }
 
     // Manage role-permissions
     async manageRolePermission(roleId, requestRolePermissions) {
-        for(let reqRolePer of requestRolePermissions){
 
+        // Loop through the role-permission request
+        requestRolePermissions.forEach( async(reqRolePer) => {
             const rolePermission = await RolePermission.findOne({ _id: reqRolePer._id })
-            if(!rolePermission) throw new CustomError('Role permission not found!', 404)
+            if (!rolePermission) throw new CustomError('Role permission not found!', 404)
 
             const data = {
                 isAssigned: reqRolePer.isAssigned
@@ -80,17 +80,18 @@ class RoleService {
                 { $set: data },
                 { new: true }
             );
-        }
+        })
 
-        const response = await RolePermission.find({ role: roleId }).populate('role permission',"-isAdmin")
+        // Return updated data
+        const response = await RolePermission.find({ role: roleId }).populate('role permission', "-isAdmin")
         return response
     }
 
     // Get all assigned role-permissions 
     async getAssignedRolePermissions(roleId) {
-        const rolePermissions = await RolePermission.find({ role: roleId, isAssigned: true }).populate('role permission',"-isAdmin")
-        
-        if(!rolePermissions) throw new CustomError('No assigned Role-Permissions!', 404)
+        const rolePermissions = await RolePermission.find({ role: roleId, isAssigned: true }).populate('role permission', "-isAdmin")
+
+        if (!rolePermissions) throw new CustomError('No assigned Role-Permissions!', 404)
 
         return rolePermissions
     }
