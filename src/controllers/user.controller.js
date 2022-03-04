@@ -16,6 +16,11 @@ class UserController {
         const result = await UserServ.getAllUsers()
         res.status(200).send(response('All users', result))
     }
+
+    async deleteUser(req, res) {
+        const result = await UserServ.deleteUser(req.params.userId)
+        res.status(200).send(response('User deleted!', result))
+    }
 }
 
 module.exports = new UserController()

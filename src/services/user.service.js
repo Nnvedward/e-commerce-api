@@ -30,6 +30,14 @@ class UserService {
 
         return users
     }
+
+    // Delete user
+    async deleteUser(userId) {
+        const user = await User.findByIdAndDelete({ _id: userId })
+        if (!user) throw new CustomError('No user found!', 404)
+
+        return user
+    }
 }
 
 module.exports = new UserService()
