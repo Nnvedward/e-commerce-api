@@ -4,6 +4,8 @@ const UserRoutes = require('./src/routes/user.route')
 const AuthRoutes = require('./src/routes/auth.route')
 const RoleRoutes = require('./src/routes/role.route')
 const CategoryRoute = require('./src/routes/category.route')
+const ManufacturerRoute = require('./src/routes/manufacturer.route')
+
 const { PORT } = process.env
 const bodyParser = require("body-parser")
 
@@ -17,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', UserRoutes)
 app.use('/auth', AuthRoutes)
 app.use('/category', CategoryRoute)
+app.use('/manufacturer', ManufacturerRoute)
 app.use(RoleRoutes)
 
 // Ping route for testing connection
