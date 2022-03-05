@@ -6,6 +6,7 @@ const RoleRoutes = require('./src/routes/role.route')
 const CategoryRoute = require('./src/routes/category.route')
 const ManufacturerRoute = require('./src/routes/manufacturer.route')
 const ItemRoute = require('./src/routes/item.route')
+const CartRoute = require('./src/routes/cart.route')
 
 const { PORT } = process.env
 const bodyParser = require("body-parser")
@@ -22,6 +23,7 @@ app.use('/auth', AuthRoutes)
 app.use('/category', CategoryRoute)
 app.use('/manufacturer', ManufacturerRoute)
 app.use('/item', ItemRoute)
+app.use('/cart', CartRoute)
 app.use(RoleRoutes)
 
 // Ping route for testing connection
