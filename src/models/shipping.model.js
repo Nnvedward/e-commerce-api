@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
 const shippingSchema = new mongoose.Schema({
-    location : {
+    address : {
         type: String,
         required: true,
         trim: true
     },
-    orderUniqueId: {
-        type: mongoose.Schema.Types.String,
+    orderId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Order'
     },
