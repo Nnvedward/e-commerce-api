@@ -1,14 +1,5 @@
 const express = require('express')
 require('express-async-errors')
-const UserRoutes = require('./src/routes/user.route')
-const AuthRoutes = require('./src/routes/auth.route')
-const RoleRoutes = require('./src/routes/role.route')
-const CategoryRoute = require('./src/routes/category.route')
-const ManufacturerRoute = require('./src/routes/manufacturer.route')
-const ItemRoute = require('./src/routes/item.route')
-const CartRoute = require('./src/routes/cart.route')
-const OrderRoute = require('./src/routes/order.route')
-const ShippingRoute = require('./src/routes/shipping.route')
 
 const { PORT } = process.env
 const bodyParser = require("body-parser")
@@ -17,19 +8,10 @@ const app = express()
 
 // Parse JSON data
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // Api routes
-app.use('/users', UserRoutes)
-app.use('/auth', AuthRoutes)
-app.use('/category', CategoryRoute)
-app.use('/manufacturer', ManufacturerRoute)
-app.use('/item', ItemRoute)
-app.use('/cart', CartRoute)
-app.use('/order', OrderRoute)
-app.use('/shipping', ShippingRoute)
-
-app.use(RoleRoutes)
+app.use('/api', require('./src/routes'))
 
 // Ping route for testing connection
 app.get("/ping", (req, res) => res.status(200).send("Hello world!"));
