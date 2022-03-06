@@ -8,6 +8,7 @@ const ManufacturerRoute = require('./src/routes/manufacturer.route')
 const ItemRoute = require('./src/routes/item.route')
 const CartRoute = require('./src/routes/cart.route')
 const OrderRoute = require('./src/routes/order.route')
+const ShippingRoute = require('./src/routes/shipping.route')
 
 const { PORT } = process.env
 const bodyParser = require("body-parser")
@@ -26,6 +27,7 @@ app.use('/manufacturer', ManufacturerRoute)
 app.use('/item', ItemRoute)
 app.use('/cart', CartRoute)
 app.use('/order', OrderRoute)
+app.use('/shipping', ShippingRoute)
 
 app.use(RoleRoutes)
 
